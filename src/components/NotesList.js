@@ -18,19 +18,17 @@ class NotesList extends React.Component {
   }
   componentWillMount() {
     var self = this
+    var arr = [];
     $.getJSON("https://spy-api.herokuapp.com/apis?api-key=043d38e30b3685edff633897d9fd1483f54b7d1e&json=Notes", function(results) {
         results.notes.forEach(function(note) {
-          self.add(note);
+          arr.push({id: note.id, content: note.content});
+          self.setState({notes: arr});
         })
+        console.log(self.state.notes)
     })
   }
-  add(note) {
-    var arr = this.state.notes;
-    arr.push(note.content);
-    this.setState({notes: arr});
-  }
   eachNote(note) {
-    return <Note>{note}</Note>
+    return <Note key={note.id}>{note.content}</Note>
   };
 
 };
